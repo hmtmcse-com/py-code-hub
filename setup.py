@@ -9,7 +9,7 @@ env = os.environ.get('source')
 
 
 def get_dependencies():
-    dependency = ["openpyxl==3.1.5"]
+    dependency = ["openpyxl==3.1.5", "python-barcode==0.15.1", "pillow==10.4.0"]
 
     if env and env == "dev":
         return dependency
