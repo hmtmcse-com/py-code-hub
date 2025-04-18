@@ -23,6 +23,6 @@ options = {
 barcode = Code128('PYTHON-123', writer=CustomSVGWriter())
 
 # Save with custom filename
-filename = barcode.save('custom_barcode', options)
+filename = barcode.save(f"tmp/svg-custom", options)
 
 print(f"Custom barcode saved as {filename}.svg")
