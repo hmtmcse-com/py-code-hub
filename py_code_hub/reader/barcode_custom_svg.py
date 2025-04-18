@@ -5,12 +5,12 @@ from barcode.writer import SVGWriter, create_svg_object, SIZE, _set_attributes, 
 class CustomSVGWriter(SVGWriter):
     top_text = None
     text_align = "middle"
-    barcode_start_x = None
-    barcode_y = None
     margin_top = None
-    actual_margin_top = None
     top_text_distance: float = 0.5
-    top_text_height: float = 0.0
+
+    _barcode_y = None
+    _barcode_start_x = None
+    _top_text_height: float = 0.0
 
     '''
     This methods copied from SVGWriter for generate top text
@@ -43,11 +43,10 @@ class CustomSVGWriter(SVGWriter):
 
     def _init(self, code):
         width, height = self.calculate_size(len(code[0]), len(code))
-        self.actual_margin_top = self.margin_top
         if self.top_text:
-            self.top_text_height = pt2mm(self.font_size) + self.top_text_distance
-            self.margin_top += self.top_text_height
-            height += self.top_text_height
+            self._top_text_height = pt2mm(self.font_size) + self.top_text_distance
+            self.margin_top += self._top_text_height
+            height += self._top_text_height
         self.parent_init(width=width, height=height)
 
     def _create_text_element(self, xpos, ypos, text, text_align="middle"):
@@ -67,9 +66,9 @@ class CustomSVGWriter(SVGWriter):
         self._group.appendChild(element)
 
     def _create_module(self, xpos, ypos, width, color):
-        if not self.barcode_start_x:
-            self.barcode_start_x = xpos
-        self.barcode_y = ypos
+        if not self._barcode_start_x:
+            self._barcode_start_x = xpos
+        self._barcode_y = ypos
         super()._create_module(xpos=xpos, ypos=ypos, width=width, color=color)
 
 
@@ -80,7 +79,7 @@ class CustomSVGWriter(SVGWriter):
     def _create_text(self, xpos, ypos):
         barcodetext = self.human if self.human != "" else self.text
         if self.text_align == "start":
-            xpos = self.barcode_start_x
+            xpos = self._barcode_start_x
         if self.top_text:
             top_ypos = self.margin_top - self.top_text_distance
             self._create_text_element(text=self.top_text, xpos=xpos, ypos=top_ypos, text_align=self.text_align)
@@ -96,7 +95,7 @@ options = {
     'module_height': 8.0,  # Height of each barcode module
     'quiet_zone': 1,  # Quiet zone around the barcode
     'font_size': 6,  # Size of the text
-    'text_distance': 2.8,  # Distance between barcode and text
+    'text_distance': 2.5,  # Distance between barcode and text
     'background': 'white',  # Background color
     'foreground': 'black',  # Foreground color (bars and text)
     'center_text': True,  # Center the text below barcode
