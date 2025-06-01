@@ -15,7 +15,7 @@ def get_dependencies():
         "pillow==10.4.0",
         "svgwrite==1.4.3",
         "python-escpos==3.1",
-        "weasyprint==61.1",
+        "weasyprint==61.2",
         "pdf2image ==1.17.0",
         "PyAudio==0.2.14",
     ]
