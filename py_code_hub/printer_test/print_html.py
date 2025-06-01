@@ -48,9 +48,9 @@ html_content = """
     </style>
 </head>
 <body>
-<h2>Welcome to BFE</h2>
+<!--<h2>Welcome to BFE</h2>-->
 <div class="token">
-    <p>Your Token Number:</p>
+<!--    <p>Your Token Number:</p>-->
     <div class="token-number" id="tokenNumber">001</div>
 </div>
 </body>
