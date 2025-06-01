@@ -19,7 +19,7 @@ html_content = """
     <title>Queue Token</title>
     <style>
         @page {
-            size: 60mm 40mm;
+            size: 60mm 45mm;
             margin: 0;
         }
 
@@ -28,12 +28,11 @@ html_content = """
             height: 40mm;
             margin: 0;
             text-align: center;
-            border: 2px black solid;
         }
 
 
         .token-number {
-            font-size: 80px;
+            font-size: 70px;
             font-weight: bold;
         }
 
