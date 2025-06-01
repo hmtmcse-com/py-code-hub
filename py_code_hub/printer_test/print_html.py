@@ -7,6 +7,7 @@ def html_to_image(html_content):
     html = HTML(string=html_content)
     pdf_bytes = html.write_pdf()
     images = convert_from_bytes(pdf_bytes)
+    images[0].save("output.png", "PNG")
     return images[0]
 
 
