@@ -7,6 +7,7 @@ def html_to_image(html_content):
     html = HTML(string=html_content)
     pdf_bytes = html.write_pdf()
     images = convert_from_bytes(pdf_bytes)
+    images[0].save("output.png", "PNG")
     return images[0]
 
 
@@ -19,10 +20,10 @@ html_content = """
     <style>
         body {
             width: 80mm;
-            height: 50mm;
+            height: 40mm;
             margin: 0;
-            font-family: Arial, sans-serif;
             text-align: center;
+          border: 2px black solid;
         }
 
         .token {
@@ -33,18 +34,6 @@ html_content = """
             font-size: 36px;
             font-weight: bold;
         }
-
-        .footer {
-            position: absolute;
-            bottom: 5mm;
-            width: 100%;
-            font-size: 10px;
-        }
-
-        button {
-            display: none;
-        }
-
         body {
             padding: 10px;
         }
@@ -70,6 +59,6 @@ html_content = """
 """
 
 img = html_to_image(html_content)
-printer = Usb(0x4b43, 0x3538, 0, out_ep=0x03)
-printer.image(img)
-printer.cut()
+# printer = Usb(0x4b43, 0x3538, 0, out_ep=0x03)
+# printer.image(img)
+# printer.cut()
