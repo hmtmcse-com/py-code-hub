@@ -59,6 +59,6 @@ html_content = """
 """
 
 img = html_to_image(html_content)
-printer = Usb(0x4b43, 0x3538,  out_ep=0x03)
-printer.image(img)
-printer.cut()
+# printer = Usb(0x4b43, 0x3538,  out_ep=0x03)
+# printer.image(img)
+# printer.cut()
