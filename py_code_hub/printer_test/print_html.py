@@ -19,21 +19,18 @@ html_content = """
     <title>Queue Token</title>
     <style>
         @page {
-            size: 80mm 40mm;
+            size: 60mm 40mm;
             margin: 0;
         }
 
         body {
-            width: 80mm;
+            width: 60mm;
             height: 40mm;
             margin: 0;
             text-align: center;
             border: 2px black solid;
         }
 
-        body {
-            padding: 10px;
-        }
 
         .token-number {
             font-size: 80px;
@@ -49,9 +46,9 @@ html_content = """
     </style>
 </head>
 <body>
-<!--<h2>Welcome to BFE</h2>-->
+<h2>Welcome to BFE</h2>
 <div class="token">
-<!--    <p>Your Token Number:</p>-->
+    <p>Your Token Number:</p>
     <div class="token-number" id="tokenNumber">001</div>
 </div>
 </body>
