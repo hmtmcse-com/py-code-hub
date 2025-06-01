@@ -1,5 +1,4 @@
 import time
-
 from pdf2image import convert_from_bytes
 from weasyprint import HTML
 from escpos.printer import Usb
