@@ -7,7 +7,6 @@ def html_to_image(html_content):
     html = HTML(string=html_content)
     pdf_bytes = html.write_pdf()
     images = convert_from_bytes(pdf_bytes)
-    images[0].save("output.png", "PNG")
     return images[0]
 
 
@@ -31,26 +30,20 @@ html_content = """
             border: 2px black solid;
         }
 
-        .token {
-            margin-top: 10mm;
-        }
-
-        .token-number {
-            font-size: 36px;
-            font-weight: bold;
-        }
-
         body {
             padding: 10px;
         }
 
-        .token {
-            margin-top: 20px;
+        .token-number {
+            font-size: 80px;
+            font-weight: bold;
         }
 
-        .token-number {
-            font-size: 36px;
-            font-weight: bold;
+        p {
+            margin: 1px;
+        }
+        h2 {
+            margin: 3px;
         }
     </style>
 </head>
