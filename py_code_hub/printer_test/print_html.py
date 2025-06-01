@@ -6,10 +6,8 @@ import io
 
 def html_to_image(html_content):
     html = HTML(string=html_content)
-    png_io = io.BytesIO()
-    html.write_png(png_io)
-    png_io.seek(0)
-    return Image.open(png_io)
+    pdf_stream = io.BytesIO(html.write_pdf())
+    return Image.open(pdf_stream)
 
 
 # Your HTML content
