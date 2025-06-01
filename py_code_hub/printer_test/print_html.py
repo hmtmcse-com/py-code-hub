@@ -1,13 +1,13 @@
+from pdf2image import convert_from_bytes
 from weasyprint import HTML
 from escpos.printer import Usb
-from PIL import Image
-import io
 
 
 def html_to_image(html_content):
     html = HTML(string=html_content)
-    pdf_stream = io.BytesIO(html.write_pdf())
-    return Image.open(pdf_stream)
+    pdf_bytes = html.write_pdf()
+    images = convert_from_bytes(pdf_bytes)
+    return images[0]
 
 
 # Your HTML content

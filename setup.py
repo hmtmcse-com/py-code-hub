@@ -16,6 +16,7 @@ def get_dependencies():
         "svgwrite==1.4.3",
         "python-escpos==3.1",
         "weasyprint==61.1",
+        "pdf2image ==1.17.0",
         "PyAudio==0.2.14",
     ]
 
