@@ -1,12 +1,25 @@
+import time
+
 from pdf2image import convert_from_bytes
 from weasyprint import HTML
 from escpos.printer import Usb
 
 
 def html_to_image(html_content):
+
+    start = time.time()
     html = HTML(string=html_content)
     pdf_bytes = html.write_pdf()
+    end = time.time()
+    duration = end - start
+    print(f"Generate PDF: {duration:.6f}")
+
+    start = time.time()
     images = convert_from_bytes(pdf_bytes)
+    end = time.time()
+    duration = end - start
+    print(f"Image Convert: {duration:.6f}")
+
     # images[0].save("output.png", "PNG")
     return images[0]
 
@@ -54,7 +67,16 @@ html_content = """
 </html>
 """
 
+
+def print_to_printer(img):
+    start = time.time()
+    printer = Usb(0x4b43, 0x3538, out_ep=0x03)
+    printer.image(img)
+    printer.cut()
+    end = time.time()
+    duration = end - start
+    print(f"End Print: {duration:.6f}")
+
+
 img = html_to_image(html_content)
-printer = Usb(0x4b43, 0x3538,  out_ep=0x03)
-printer.image(img)
-printer.cut()
+print_to_printer(img)
