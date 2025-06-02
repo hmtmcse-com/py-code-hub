@@ -19,7 +19,7 @@ def html_to_image(html_content):
     duration = end - start
     print(f"Image Convert: {duration:.6f}")
 
-    # images[0].save("output.png", "PNG")
+    images[0].save("output.png", "PNG")
     return images[0]
 
 
