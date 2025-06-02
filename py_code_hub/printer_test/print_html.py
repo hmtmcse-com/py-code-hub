@@ -42,7 +42,7 @@ html_content = """
 
         .token-container {
             width: 48mm;
-            height: 25mm;
+            height: 35mm;
             text-align: center;
             border: 4px solid #000;
         }
