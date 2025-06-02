@@ -69,7 +69,7 @@ html_content = """
 
         @media print {
             @page {
-                size: 48mm 30mm;
+                size: 48mm 35mm;
                 margin: 0 !important;
                 padding: 0 !important;
             }
