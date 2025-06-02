@@ -99,6 +99,9 @@ html_content = """
 def print_to_printer(img):
     start = time.time()
     printer = Usb(0x4b43, 0x3538, out_ep=0x03)
+    printer.text('\x1b\x40')  # reset the printer to default
+    printer.text('\x1b\x64\x00')  # Zero feed
+    printer.set(align='center')
     printer.image(img)
     printer.cut()
     end = time.time()
