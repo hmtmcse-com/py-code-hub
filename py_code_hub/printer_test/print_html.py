@@ -106,7 +106,7 @@ def print_to_printer(img):
 
     printer.text("=== BEFORE IMAGE ===\n")
     printer.image(img)
-    p.text("=== AFTER IMAGE ===\n")
+    printer.text("=== AFTER IMAGE ===\n")
     printer.cut()
     end = time.time()
     duration = end - start
