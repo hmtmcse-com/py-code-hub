@@ -41,34 +41,35 @@ html_content = """
 
 
         .token-container {
-            width: 55mm;
-            height: 35mm;
+            width: 48mm;
+            height: 25mm;
             text-align: center;
-            border: 1px solid #d0dae7;
+            /*border: 4px solid #000;*/
         }
 
         .token-container .token-heading {
-            padding-top: 5px;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            line-height: 1;
         }
 
        .token-container .token-subtitle {
             font-size: 16px;
             font-weight: 500;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .token-container .token-no {
             font-size: 38px;
             font-weight: bold;
+            line-height: 1;
         }
 
 
         @media print {
             @page {
-                size: 55mm 35mm;
+                size: 48mm 26mm;
                 margin: 0 !important;
                 padding: 0 !important;
             }
@@ -100,7 +101,6 @@ def print_to_printer(img):
     start = time.time()
 
     printer = Usb(0x4b43, 0x3538, out_ep=0x03, in_ep=0x81)
-    printer._raw(b'\x1d\x4c\x00\x00') # reset the printer to default
     printer.set(align='center')
 
     printer.text("<<=== BEFORE IMAGE ===============>>\n")
