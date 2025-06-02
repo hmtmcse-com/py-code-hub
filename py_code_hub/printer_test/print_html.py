@@ -44,7 +44,7 @@ html_content = """
             width: 48mm;
             height: 25mm;
             text-align: center;
-            /*border: 4px solid #000;*/
+            border: 4px solid #000;
         }
 
         .token-container .token-heading {
@@ -113,4 +113,4 @@ def print_to_printer(img):
 
 
 img = html_to_image(html_content)
-print_to_printer(img)
+# print_to_printer(img)
