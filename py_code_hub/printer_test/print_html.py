@@ -87,7 +87,7 @@ html_content = """
     <h1 class="token-heading">Wellcome to BFE</h1>
     <p class="token-subtitle">Your Token No</p>
     <div class="token-no">
-        001
+        T001
     </div>
 </div>
 
