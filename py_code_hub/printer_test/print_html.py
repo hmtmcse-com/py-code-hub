@@ -103,8 +103,10 @@ def print_to_printer(img):
     printer.text('\x1b\x40')  # reset the printer to default
     printer.text('\x1b\x64\x00')  # Zero feed
     printer.set(align='center')
-    printer.image(img)
 
+    printer.text("=== BEFORE IMAGE ===\n")
+    printer.image(img)
+    p.text("=== AFTER IMAGE ===\n")
     printer.cut()
     end = time.time()
     duration = end - start
