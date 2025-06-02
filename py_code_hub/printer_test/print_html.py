@@ -41,7 +41,7 @@ html_content = """
 
 
         .token-container {
-            width: 48mm;
+            width: 47mm;
             height: 33mm;
             text-align: center;
             border: 2px solid #000;
