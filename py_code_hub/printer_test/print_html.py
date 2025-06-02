@@ -100,8 +100,7 @@ def print_to_printer(img):
     start = time.time()
 
     printer = Usb(0x4b43, 0x3538, out_ep=0x03, in_ep=0x81)
-    printer.text('\x1b\x40')  # reset the printer to default
-    printer.text('\x1b\x64\x00')  # Zero feed
+    printer._raw(b'\x1d\x4c\x00\x00') # reset the printer to default
     printer.set(align='center')
 
     printer.text("<<=== BEFORE IMAGE ===============>>\n")
