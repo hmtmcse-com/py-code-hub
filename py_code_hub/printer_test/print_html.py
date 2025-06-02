@@ -113,4 +113,4 @@ def print_to_printer(img):
 
 
 img = html_to_image(html_content)
-# print_to_printer(img)
+print_to_printer(img)
