@@ -42,7 +42,7 @@ html_content = """
 
         .token-container {
             width: 55mm;
-            height: 29mm;
+            height: 35mm;
             text-align: center;
             border: 1px solid #d0dae7;
         }
@@ -68,7 +68,7 @@ html_content = """
 
         @media print {
             @page {
-                size: 55mm 30mm;
+                size: 55mm 35mm;
                 margin: 0 !important;
                 padding: 0 !important;
             }
