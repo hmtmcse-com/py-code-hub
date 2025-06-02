@@ -26,42 +26,71 @@ def html_to_image(html_content):
 # Your HTML content
 html_content = """
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Queue Token</title>
+    <meta charset="UTF-8">
+    <title>Token</title>
+
+
     <style>
-        @page {
-            size: 60mm 45mm;
+
+        * {
             margin: 0;
+            padding: 0;
         }
 
-        body {
-            width: 60mm;
-            height: 40mm;
-            margin: 0;
+
+        .token-container {
+            width: 55mm;
+            height: 29mm;
             text-align: center;
+            border: 1px solid #d0dae7;
         }
 
+        .token-container .token-heading {
+            padding-top: 5px;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
 
-        .token-number {
-            font-size: 70px;
+       .token-container .token-subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .token-container .token-no {
+            font-size: 38px;
             font-weight: bold;
         }
 
-        p {
-            margin: 1px;
-        }
-        h2 {
-            margin: 3px;
+
+        @media print {
+            @page {
+                size: 55mm 30mm;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
         }
     </style>
 </head>
 <body>
-<h2>Welcome to BFE</h2>
-<div class="token">
-    <p>Your Token Number:</p>
-    <div class="token-number" id="tokenNumber">001</div>
+
+<div class="token-container">
+    <h1 class="token-heading">Wellcome to BFE</h1>
+    <p class="token-subtitle">Your Token No</p>
+    <div class="token-no">
+        001
+    </div>
 </div>
+
 </body>
 </html>
 """
