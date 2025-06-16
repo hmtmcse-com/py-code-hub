@@ -14,10 +14,11 @@ def get_dependencies():
         "python-barcode==0.15.1",
         "pillow==10.4.0",
         "svgwrite==1.4.3",
-        "python-escpos==3.1",
+        "python-escpos==2.2.0",
         "weasyprint==61.2",
         "pdf2image ==1.17.0",
         "PyAudio==0.2.14",
+        "pydub==0.25.1",
     ]
 
     if env and env == "dev":
