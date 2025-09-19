@@ -2,10 +2,10 @@ import requests
 import json
 
 # -------- CONFIGURATION --------
-CLIENT_ID = "122b0e2e41a26a9b7c63d5634dd5f5dbfe62c302"
-CLIENT_SECRET = "414608ad-3559-46e9-8c88-73c9028bb46bbb"
-AUTH_URL = "https://api.aggregator.tpconnects.online"
-SEARCH_URL = "https://api.aggregator.tpconnects.online/ndc/v1/AirShopping"
+CLIENT_ID = ""
+CLIENT_SECRET = ""
+AUTH_URL = ""
+SEARCH_URL = ""
 
 
 # -------- GET ACCESS TOKEN --------
