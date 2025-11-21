@@ -19,6 +19,7 @@ def get_dependencies():
         "pdf2image ==1.17.0",
         "PyAudio==0.2.14",
         "pydub==0.25.1",
+        "xlsxwriter==3.2.9",
     ]
 
     if env and env == "dev":
