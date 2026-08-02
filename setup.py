@@ -15,12 +15,13 @@ def get_dependencies():
         "pillow==10.4.0",
         "svgwrite==1.4.3",
         "python-escpos==2.2.0",
-        "weasyprint==61.2",
+        "weasyprint==69.0",
         "pdf2image ==1.17.0",
         "PyAudio==0.2.14",
         "pydub==0.25.1",
         "xlsxwriter==3.2.9",
         "watchdog==6.0.0",
+        "pypandoc==1.17",
     ]
 
     if env and env == "dev":
