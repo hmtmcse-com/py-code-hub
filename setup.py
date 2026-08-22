@@ -22,6 +22,9 @@ def get_dependencies():
         "xlsxwriter==3.2.9",
         "watchdog==6.0.0",
         "pypandoc==1.17",
+        "qrcode[pil]==8.2"
+        "pyzk==0.9"
+        "Quart==0.22.0"
     ]
 
     if env and env == "dev":
