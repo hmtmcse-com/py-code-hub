@@ -172,22 +172,22 @@ async def handle_cdata():
     DEVICES[sn] = {"last_seen": int(time.time()), "status": "ONLINE"}
 
     # --- GET: Device Option Sync ---
-    if request.method == "GET":
-        options = request.args.get("options")
-        print(f"[*] /iclock/cdata GET options request from SN: {sn}")
-        current_ts = int(time.time())
-        body = (
-            f"GET OPTION FROM: {sn}\n"
-            f"Stamp={current_ts}\n"
-            f"OpStamp={current_ts}\n"
-            "ErrorDelay=60\n"
-            "Delay=30\n"
-            "TransTimes=00:00;23:59\n"
-            "TransInterval=1\n"
-            "Realtime=1\n"
-            "Encrypt=0"
-        )
-        return make_text_response(body)
+    # if request.method == "GET":
+    #     options = request.args.get("options")
+    #     print(f"[*] /iclock/cdata GET options request from SN: {sn}")
+    #     current_ts = int(time.time())
+    #     body = (
+    #         f"GET OPTION FROM: {sn}\n"
+    #         f"Stamp={current_ts}\n"
+    #         f"OpStamp={current_ts}\n"
+    #         "ErrorDelay=60\n"
+    #         "Delay=30\n"
+    #         "TransTimes=00:00;23:59\n"
+    #         "TransInterval=1\n"
+    #         "Realtime=1\n"
+    #         "Encrypt=0"
+    #     )
+    #     return make_text_response(body)
 
     # --- POST: Log Ingestion ---
     table = request.args.get("table", "UNKNOWN")
@@ -243,6 +243,8 @@ async def handle_cdata():
             print(
                 f"[*] [HARDWARE STATE] SN: {sn} | Sensor: {state_data.get('sensor')} | Door: {state_data.get('door')}")
 
+    lines = []
+    return make_text_response(f"OK: {len(lines)}")
     return make_text_response(f"OK: {len(lines)}")
 
 
@@ -304,4 +306,4 @@ async def handle_querydata():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    app.run(host="0.0.0.0", port=6304, debug=True)
