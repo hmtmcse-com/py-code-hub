@@ -25,6 +25,7 @@ def get_dependencies():
         "qrcode[pil]==8.2"
         "pyzk==0.9"
         "Quart==0.22.0"
+        "cryptography==50.0.1"
     ]
 
     if env and env == "dev":
