@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result Sheet </title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            color: #0f172a;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .page-container {
+            width: 297mm;
+            height: 210mm;
+            padding: 6mm 10mm;
+            margin: 10px auto;
+            position: relative;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        .page-container::before {
+            content: "";
+            position: absolute;
+            top: 3mm;
+            bottom: 3mm;
+            left: 3mm;
+            right: 3mm;
+            border: 3px solid #1a252f;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .page-container::after {
+            content: "";
+            position: absolute;
+            top: 5.5mm;
+            bottom: 5.5mm;
+            left: 5.5mm;
+            right: 5.5mm;
+            border: 1px solid #1a252f;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .page-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 95mm;
+            height: auto;
+            opacity: 0.10;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 12;
+        }
+
+        .admit-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: transparent;
+            border-bottom: 4px double #164865;
+            padding-top: 6px;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .school-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+
+        .school-text-block {
+            text-align: center;
+        }
+
+        .header-school-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .school-name-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .school-name {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #000000;
+        }
+
+        .loc {
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: -5px;
+            color: #000000;
+        }
+
+        .school-logo, .student {
+            background-color: #ffffff;
+            border: 4px double #122e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            width: 68px;
+            height: 68px;
+            flex-shrink: 0;
+            position: absolute;
+            top: 100%;
+            transform: translateY(-50%);
+            z-index: 20;
+        }
+
+        .school-logo {
+            left: 45px;
+        }
+
+        .student {
+            right: 45px;
+        }
+
+        .school-logo img, .student img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0;
+        }
+
+        .school-logo img {
+            object-fit: contain;
+            padding: 2px;
+        }
+
+        .exam-title-container {
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .exam-title {
+            padding-top: 4px;
+            padding-bottom: 8px;
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #000000;
+            display: inline-block;
+        }
+
+        .main-body {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .body-row-1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .table-top-warning {
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: #c0392b;
+            letter-spacing: 0.3px;
+            margin-top: 4px;
+            margin-bottom: 2px;
+        }
+
+        .body-row-2 {
+            margin-top: 0;
+            position: relative;
+        }
+
+        .body-row-3 {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 8px 10px 0 10px;
+        }
+
+        .signatures-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .signature-block {
+            text-align: center;
+            width: 210px;
+            position: relative;
+        }
+
+        .signature-line {
+            border-top: 1px dotted #333;
+            width: 100%;
+            position: relative;
+        }
+
+        .signature-line img {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-height: 40px;
+            width: auto;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .signature-label {
+            font-size: 10.5px;
+            font-weight: bold;
+            color: #111;
+            white-space: nowrap;
+        }
+
+        .info-column-left {
+            flex-basis: 52%;
+        }
+
+        .info-column-middle {
+            flex-basis: 23%;
+        }
+
+        .info-column-right {
+            flex-basis: 23%;
+        }
+
+        .student-info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .student-info-table td {
+            border: none;
+            padding: 1.5px 1px;
+            font-size: 12px;
+            vertical-align: middle;
+            color: #000;
+        }
+
+        .student-info-table td.label {
+            width: 65px;
+            font-weight: normal;
+        }
+
+        .student-info-table td.label-alt {
+            width: 85px;
+            font-weight: normal;
+            padding-left: 15px;
+        }
+
+        .student-info-table td.colon {
+            width: 15px;
+            text-align: center;
+        }
+
+        .student-info-table td.value {
+            font-weight: bold;
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .metrics-table td {
+            border: 1px solid #cbd5e1;
+            padding: 1.5px 6px;
+            font-size: 11px;
+            color: #334155;
+            height: 20px;
+        }
+
+        .metrics-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        .metrics-table td.label-cell {
+            font-weight: normal;
+            width: 65%;
+        }
+
+        .metrics-table td.value-cell {
+            width: 35%;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .grade-scale-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .grade-scale-table th {
+            border: 1px solid #94a3b8;
+            padding: 2.5px 3px;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #1e293b;
+            background-color: #f1f5f9;
+            vertical-align: middle;
+        }
+
+        .grade-scale-table td {
+            border: 1px solid #cbd5e1;
+            padding: 1.2px 4px;
+            font-size: 11px;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .grade-scale-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        .marks-table, .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            margin-top: 5px;
+            table-layout: fixed;
+        }
+
+        .summary-table {
+            margin-top: 0;
+            border-top: none;
+        }
+
+        .marks-table th {
+            border: 1px solid #94a3b8;
+            padding: 3px 2px;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #1e293b;
+            background-color: #f1f5f9;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+
+        .marks-table .index-row th {
+            font-weight: 500;
+            font-size: 12px;
+            padding: 1px 0;
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+        }
+
+        .marks-table td, .summary-table td {
+            border: 1px solid #cbd5e1;
+            padding: 2.2px 4px;
+            font-size: 11px;
+            color: #334155;
+            vertical-align: middle;
+        }
+
+        .marks-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        .marks-table td.subject-name {
+            text-align: left;
+            padding-left: 8px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .summary-table tr.total-highlight td {
+            font-weight: 700;
+            background-color: #e2e8f0;
+            color: #0f172a;
+            border-top: 1px solid #94a3b8;
+            border-bottom: 2px solid #94a3b8;
+            padding: 3px 4px;
+        }
+
+        .summary-table .gpa-label {
+            text-align: left;
+            font-weight: 700;
+            padding-left: 8px;
+            text-transform: uppercase;
+        }
+
+        .summary-table .gpa-val {
+            font-weight: 700;
+        }
+
+        .position-wrapper-cell {
+            position: relative;
+            padding: 0 !important;
+            background: #fff !important;
+        }
+
+        .position-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .position {
+            font-weight: 700;
+        }
+
+        .fail-circle {
+            border: 1.5px solid #000000;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .credit-footer {
+            margin-top: 8px;
+            text-align: center;
+            font-size: 10px;
+            color: rgb(0 0 0);
+            padding-bottom: 4px;
+            letter-spacing: 0.2px;
+        }
+
+        .credit-footer strong {
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #fff;
+            }
+
+            .page-container {
+                width: 297mm;
+                height: 210mm;
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <img class="page-watermark" src="assets/img/logo-big.png" alt="">
+
+    <div class="content">
+        <div class="admit-card-header">
+            <div class="school-logo">
+                <img src="assets/img/qr-scan.png" alt="logo">
+            </div>
+
+            <div class="school-info">
+                <div class="school-text-block">
+                    <div class="school-name-wrapper">
+                        <img class="header-school-logo" src="assets/img/logo.png" alt="School Logo">
+                        <div class="school-name">Police Lines School and College, Rangpur</div>
+                    </div>
+                    <div class="loc">EIIN: 127501, web: plscr.edu.bd</div>
+                </div>
+            </div>
+
+            <div class="student">
+                <img src="assets/img/student3.png" alt="Student">
+            </div>
+        </div>
+
+        <div class="exam-title-container">
+            <div class="exam-title">Half Yearly Exam - Year 2026</div>
+        </div>
+
+        <div class="main-body">
+
+            <div class="body-row-1">
+                <div class="info-column-left">
+                    <table class="student-info-table">
+                        <tr>
+                            <td class="label">Name</td>
+                            <td class="colon">:</td>
+                            <td class="value" style="width: 210px;">Faiyaz Muhammad Tahsin Mia</td>
+                            <td class="label-alt">Student ID</td>
+                            <td class="colon">:</td>
+                            <td class="value">S26070001 / 17940</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Class</td>
+                            <td class="colon">:</td>
+                            <td class="value">Ten</td>
+                            <td class="label-alt">Shift</td>
+                            <td class="colon">:</td>
+                            <td class="value">Morning</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Section</td>
+                            <td class="colon">:</td>
+                            <td class="value">Shapla</td>
+                            <td class="label-alt">Session</td>
+                            <td class="colon">:</td>
+                            <td class="value">2026</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Roll</td>
+                            <td class="colon">:</td>
+                            <td class="value">15</td>
+                            <td class="label-alt">Version</td>
+                            <td class="colon">:</td>
+                            <td class="value">Bangla</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Group</td>
+                            <td class="colon">:</td>
+                            <td class="value">Science</td>
+                            <td class="label-alt">Status</td>
+                            <td class="colon">:</td>
+                            <td class="value">Regular</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="info-column-middle">
+                    <table class="metrics-table">
+                        <tr>
+                            <td class="label-cell">Class Days:</td>
+                            <td class="value-cell">148</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Days of presence:</td>
+                            <td class="value-cell">120</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Co-curricular activities</td>
+                            <td class="value-cell"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="info-column-right">
+                    <table class="grade-scale-table">
+                        <thead>
+                        <tr>
+                            <th>Letter Grade</th>
+                            <th>Class Interval (%)</th>
+                            <th>Grade Point</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>A+</td>
+                            <td>80-100</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>A</td>
+                            <td>70-79</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>A-</td>
+                            <td>60-69</td>
+                            <td>3.5</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>50-59</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>40-49</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>F</td>
+                            <td>00-39</td>
+                            <td>0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="table-top-warning">
+                * Your current standing is below the 60% threshold, requiring immediate academic review *
+            </div>
+
+            <div class="body-row-2">
+                <table class="marks-table">
+                    <colgroup>
+                        <col style="width: 22%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 10%;">
+                        <col style="width: 7%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 7%;">
+                    </colgroup>
+                    <thead>
+
+                    <tr class="index-row">
+                        <th></th>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                        <th>9</th>
+                        <th>10</th>
+                        <th>11</th>
+                        <th>12</th>
+                    </tr>
+
+                    <tr>
+                        <th rowspan="2">Subject</th>
+                        <th rowspan="2">Total Marks</th>
+                        <th rowspan="2">Pass Marks</th>
+                        <th rowspan="2">Highest Marks</th>
+                        <th colspan="4">Summative</th>
+                        <th>Formative</th>
+                        <th rowspan="2">Obtain Mark<br>(7+8)</th>
+                        <th rowspan="2">Letter Grade</th>
+                        <th rowspan="2">Grade Point</th>
+                        <th rowspan="2">Position</th>
+                    </tr>
+                    <tr>
+                        <th>CQ</th>
+                        <th>MCQ</th>
+                        <th>Total</th>
+                        <th>70% of Total</th>
+                        <th>CA = 30 Marks</th>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="subject-name">Bangla-1st Part</td>
+                        <td>100</td>
+                        <td></td>
+                        <td>92</td>
+                        <td>44</td>
+                        <td>22</td>
+                        <td>66</td>
+                        <td>66</td>
+                        <td></td>
+                        <td>66</td>
+                        <td rowspan="2" style="font-weight: 700; background: #fff;">A</td>
+                        <td rowspan="2" style="font-weight: 700; background: #fff;">4.00</td>
+                        <td rowspan="13" class="position-wrapper-cell">
+                            <div class="position-container">
+                                <span class="position">45th</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">Bangla-2nd Part</td>
+                        <td>50</td>
+                        <td>60</td>
+                        <td>48</td>
+                        <td>30</td>
+                        <td>12</td>
+                        <td>42</td>
+                        <td>42</td>
+                        <td></td>
+                        <td>42</td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">English-1st Part</td>
+                        <td>100</td>
+                        <td></td>
+                        <td>94</td>
+                        <td>73</td>
+                        <td></td>
+                        <td>73</td>
+                        <td>73</td>
+                        <td></td>
+                        <td>73</td>
+                        <td rowspan="2" style="font-weight: 700; background: #fff;">A-</td>
+                        <td rowspan="2" style="font-weight: 700; background: #fff;">3.50</td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">English-2nd Part</td>
+                        <td>50</td>
+                        <td>60</td>
+                        <td>49</td>
+                        <td>23</td>
+                        <td></td>
+                        <td>23</td>
+                        <td>23</td>
+                        <td></td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">Mathematics</td>
+                        <td>100</td>
+                        <td>40</td>
+                        <td>100</td>
+                        <td>12</td>
+                        <td>15</td>
+                        <td>27</td>
+                        <td>27</td>
+                        <td></td>
+                        <td>27</td>
+                        <td style="font-weight: 700;"><span class="fail-circle">F</span></td>
+                        <td style="font-weight: 700;">0.00</td>
+                    </tr>
+
+                    <tr>
+                        <td class="subject-name">Higher Math</td>
+                        <td>100</td>
+                        <td>40</td>
+                        <td>95</td>
+                        <td>58</td>
+                        <td>24</td>
+                        <td>82</td>
+                        <td>82</td>
+                        <td></td>
+                        <td>82</td>
+                        <td style="font-weight: 700;">A+</td>
+                        <td style="font-weight: 700;">5.00</td>
+                    </tr>
+
+                    <tr>
+                        <td class="subject-name">Chemistry</td>
+                        <td>100</td>
+                        <td>40</td>
+                        <td>94</td>
+                        <td>55</td>
+                        <td>25</td>
+                        <td>80</td>
+                        <td>80</td>
+                        <td></td>
+                        <td>80</td>
+                        <td style="font-weight: 700;">A+</td>
+                        <td style="font-weight: 700;">5.00</td>
+                    </tr>
+
+                    <tr>
+                        <td class="subject-name">Physics</td>
+                        <td>100</td>
+                        <td>40</td>
+                        <td>96</td>
+                        <td>15</td>
+                        <td>12</td>
+                        <td>27</td>
+                        <td>27</td>
+                        <td></td>
+                        <td>27</td>
+                        <td style="font-weight: 700;"><span class="fail-circle">F</span></td>
+                        <td style="font-weight: 700;">0.00</td>
+                    </tr>
+
+                    <tr>
+                        <td class="subject-name">Biology</td>
+                        <td>100</td>
+                        <td>40</td>
+                        <td>97</td>
+                        <td>62</td>
+                        <td>23</td>
+                        <td>85</td>
+                        <td>85</td>
+                        <td></td>
+                        <td>85</td>
+                        <td style="font-weight: 700;">A+</td>
+                        <td style="font-weight: 700;">5.00</td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">Religion</td>
+                        <td>100</td>
+                        <td>40</td>
+                        <td>98</td>
+                        <td>61</td>
+                        <td>25</td>
+                        <td>87</td>
+                        <td>87</td>
+                        <td></td>
+                        <td>87</td>
+                        <td style="font-weight: 700;">A+</td>
+                        <td style="font-weight: 700;">5.00</td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">BGS</td>
+                        <td>100</td>
+                        <td>40</td>
+                        <td>99</td>
+                        <td>64</td>
+                        <td>30</td>
+                        <td>94</td>
+                        <td>94</td>
+                        <td></td>
+                        <td>94</td>
+                        <td style="font-weight: 700;">A+</td>
+                        <td style="font-weight: 700;">5.00</td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">ICT</td>
+                        <td>50</td>
+                        <td>20</td>
+                        <td>50</td>
+                        <td>9</td>
+                        <td></td>
+                        <td>9</td>
+                        <td>9</td>
+                        <td></td>
+                        <td>14</td>
+                        <td style="font-weight: 700;"><span class="fail-circle">F</span></td>
+                        <td style="font-weight: 700;">0.00</td>
+                    </tr>
+                    <tr>
+                        <td class="subject-name">Physical Education</td>
+                        <td>50</td>
+                        <td>20</td>
+                        <td>48</td>
+                        <td>22</td>
+                        <td></td>
+                        <td>22</td>
+                        <td>22</td>
+                        <td></td>
+                        <td>45</td>
+                        <td style="font-weight: 700;">A+</td>
+                        <td style="font-weight: 700;">5.00</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="summary-table">
+                    <colgroup>
+                        <col style="width: 22%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 10%;">
+                        <col style="width: 7%;">
+                        <col style="width: 6%;">
+                        <col style="width: 6%;">
+                        <col style="width: 7%;">
+                    </colgroup>
+                    <tbody>
+                    <tr class="total-highlight">
+                        <td colspan="9" class="gpa-label">Total Marks Obtained</td>
+                        <td>785</td>
+                        <td></td>
+                        <td>40.5</td>
+                        <td></td>
+                    </tr>
+                    <tr class="total-highlight">
+                        <td colspan="9" class="gpa-label">Grade Point Average (G.P.A)</td>
+                        <td></td>
+                        <td class="gpa-val">GPA</td>
+                        <td class="gpa-val">0.00</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="body-row-3">
+                <div class="signatures-container">
+                    <div class="signature-block">
+                        <div class="signature-line"></div>
+                        <div class="signature-label">Signature of Class Teacher</div>
+                    </div>
+
+                    <div class="signature-block">
+                        <div class="signature-line"><img src="assets/img/sig-pri.png" alt="sign"></div>
+                        <div class="signature-label">Signature of Asst. Head Teacher</div>
+                    </div>
+
+                    <div class="signature-block">
+                        <div class="signature-line"><img src="assets/img/sig-pri.png" alt="sign"></div>
+                        <div class="signature-label">Signature of Principal</div>
+                    </div>
+                </div>
+                <div class="credit-footer">
+                    Engineering by <strong>Bangla Fighter</strong> - <strong>Sohoz EMS</strong>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
