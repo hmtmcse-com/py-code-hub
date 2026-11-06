@@ -26,7 +26,8 @@ def get_dependencies():
         "pyzk==0.9",
         "Quart==0.22.0",
         "cryptography==50.0.1",
-        "playwright==1.64.0"
+        "playwright==1.64.0",
+        "aiohttp==3.14.5"
     ]
 
     if env and env == "dev":
